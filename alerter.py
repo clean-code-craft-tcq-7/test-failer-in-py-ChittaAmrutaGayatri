@@ -1,3 +1,4 @@
+# alerter.py
 alert_failure_count = 0
 
 def network_alert_stub(celcius):
@@ -19,7 +20,24 @@ def alert_in_celcius(farenheit):
         alert_failure_count += 0
 
 
-alert_in_celcius(400.5)
-alert_in_celcius(303.6)
-print(f'{alert_failure_count} alerts failed.')
-print('All is well (maybe!)')
+# ===== Strengthened failing test =====
+def test_alert_failure_count_when_network_fails():
+    """Simulate a network failure and expect failure counter to increment."""
+    global network_alert_stub, alert_failure_count
+    original_stub = network_alert_stub
+    try:
+        def failing_stub(c):
+            print(f'ALERT: Temperature is {c} celcius')
+            return 500  # simulate failure
+        network_alert_stub = failing_stub
+        alert_failure_count = 0
+        alert_in_celcius(400)  # definitely calls the stub
+        # This should be 1, but the buggy code adds 0 -> test must FAIL
+        assert alert_failure_count == 1
+    finally:
+        network_alert_stub = original_stub
+
+
+if __name__ == "__main__":
+    test_alert_failure_count_when_network_fails()
+    print("All is well (maybe!)")
