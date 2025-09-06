@@ -1,3 +1,4 @@
+# tshirts.py
 
 def size(cms):
     if cms < 38:
@@ -7,9 +8,12 @@ def size(cms):
     else:
         return 'L'
 
-assert(size(50) == 'S')
-assert(size(50) == 'L')
+
+# ===== Strengthened failing tests =====
+# The classification leaves out cms == 38. We expect it to be 'M'.
+# The current code returns 'L' for 38 -> this test must FAIL.
 assert(size(37) == 'S')
+assert(size(38) == 'M')  # should fail with current implementation
 assert(size(40) == 'M')
 assert(size(43) == 'L')
 print("All is well (maybe!)")
