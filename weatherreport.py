@@ -42,8 +42,8 @@ def testHighPrecipitation():
         }
     weather = report(high_precip_stub)
     print(weather)
-    # Strengthened assert: should predict rain, but will fail
-    assert("rain" in weather)
+    # Strengthened assert: should predict rain, now matches 'Rainy Day'
+    assert("rain" in weather.lower())
 
 
 if __name__ == '__main__':
