@@ -18,6 +18,8 @@ def report(sensorReader):
             weather = "Partly Cloudy"
         elif readings['windSpeedKMPH'] > 50:
             weather = "Alert, Stormy with heavy rain"
+        elif readings['precipitation'] >= 60 and readings['windSpeedKMPH'] < 50:
+            weather = "Rainy Day"
     return weather
 
 
